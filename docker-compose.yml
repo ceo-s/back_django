@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  pg_db:
+    image: postgres:15.3
+    restart: always
+    volumes:
+      - pg_volume:/var/lib/postgres/data/
+    env_file:
+      - ./.env.dev.db
+
+
+  django:
+    build: .
+    command: bash -c "python /app/manage.py migrate --noinput &&
+                      python /app/manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pg_db
+  
+volumes:
+  pg_volume:

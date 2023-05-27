@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div>
+    This page with client list
+</div>
+{% for client in object_list %}
+<div>
+    <p>{{client.name}}</p>
+    <p>{{client.telegram}}</p>
+    <p>{{client.description}}</p>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div>
+    This page with programms list
+</div>
+
+{% for program in object_list %}
+<div>
+    
+    <p>{{program.coach}}</p>
+    <p>{{program.client}}</p>
+    <p>{{program.weekly_program}}</p>
+</div>
+{% endfor %}
+{% endblock %}

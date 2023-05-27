@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    /* font:  Verdana, Arial, sans-serif; */
+    font-family: 'Jura', sans-serif;
+    font-family: 'Lora', serif;
+    font-family: 'Orbitron', sans-serif;
+    color: #4f5d75;
+}
+
+body {
+    background: #1a2026;
+    /* display: flex; */
+
+}
+
+p {
+    color: #da2828;
+}
+a {
+    text-decoration: none;
+}
+aside {
+    position: fixed;
+    background: #14181d;
+    height: 100vh;
+    width: 20%;
+    margin-left: -20%;
+    transition: 1s;
+}
+
+.aside-container {
+    background: #14181d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    /* justify-content: center; */
+}
+
+#menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10vh;
+    height: 10vh;
+    /* background: #856f6f; */
+    z-index: 100;
+    transition: 1s;
+}
+
+#menu:hover {
+    cursor:pointer
+}
+
+#menu-box {
+    visibility: hidden;
+    position: absolute;
+}
+
+#menu-box:checked ~ #menu {
+    transform: translateX(0);
+    transform: translateX(20vw);
+}
+
+#menu-box:checked ~ aside {
+    /* background: #da2828;  */
+    transform: translateX(0);
+    transform: translateX(20vw);
+}
+
+#panel {
+    /* position: absolute; */
+    display: flex;
+    justify-self: right;
+    align-self: flex-end;
+    margin-left: auto;
+    /* right: 0; */
+    left: 500px;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    min-width: fit-content;
+    max-width: 150px;
+    height: 10vh;
+    background: #5e3636;
+    z-index: 100;
+}
+
+.menu-item {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    text-overflow: clip;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 15px;
+}
+
+.menu-item:hover {
+    background: #1a2026;
+    cursor: pointer;
+}
+
+.users-list {
+    background: rgb(129, 115, 98);
+    width: 100%;
+    height: 90vh;
+    max-height: fit-content;
+}
+
+.users-list-card {
+    margin-top: 20px;
+    margin-left: 20%;
+    display: grid;
+    width: 65%;
+    height: 400px;
+    background: #5e3636;
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.users-list-card-pic {
+    width: 90px;
+    height: 90px;
+    background: #cabbbb;
+}
+
+.lk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wall {
+    margin-top: -10vh;
+    width: 100%;
+    height: 30vh;
+    background: #da2828;
+}
+
+.card {
+    /* margin-left: px; */
+    display: flex;
+    justify-content: space-between;
+    margin-top: -20vh;
+    width: 40vw;
+    height: 20vw;
+    min-width: 200px;
+    min-height: 100px;
+    background: rgb(199, 189, 170);
+    border-radius: 162px 50px 50px 162px;
+    /* border: 2px solid #5e3636; */
+    transition: 0.51s;
+}
+
+.card:hover {
+    box-shadow: 0 0 20px 0.5px #0000007c;
+    transform: scale(1.01);
+}
+
+.card-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    /* background: #5e3636; */
+    border-radius: 50px;
+}
+
+.avatar {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* margin-left: auto; */
+    /* margin-right: calc(50vw - (50px )); */
+    /* margin-right: 300px; */
+    width: 20vw;
+    height: 20vw;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50%;
+    background: #5e3636;
+    overflow: hidden;
+    /* object-fit:fill; */
+}
+
+.avatar img {
+    flex-shrink: 0;
+    width: 150%;
+    height: auto;
+}
+
+.lk-container {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    /* height: 80vh; */
+    min-height: fit-content;
+    max-height: max-content;
+    background: #5e3636;
+}
+
+.lk-sports {
+    width: 40vw;
+    height: 400px;
+    border: 4px solid #000;
+}
+
+.posts {
+    /* margin-top: 100px; */
+    width: 40vw;
+    height: fit-content;
+    background: #478;
+    height: 400px;
+    display: flex;
+    /*grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px; */
+}
+
+.post {
+    position: absolute;
+    height: 400px;
+    background: #852;
+    opacity: 0.4;
+}
+
+
+

@@ -1,0 +1,4 @@
+python3 manage.py createsuperuser
+python3 manage.py fill_users 10 4
+python3 manage.py fill_libs 20
+python3 manage.py fill_base 

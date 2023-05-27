@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="lk">
+    <div class="wall">
+    <div><h1>Exercise exact page</h1></div>
+    
+</div>
+<div class="card">
+<div class="avatar">
+    <img src="{{object.profile_pic.url}}" alt="ava">
+    {{object.profile_pic.url}}
+</div>
+<div class="card-right">
+{% if user.username == object.user.username %}
+<h1><a href="{% url 'update' object.user.username %}">РЕДАКТИРОВАТЬ</a></h1>
+{% endif %}
+<h3>{{object.name}}<p>&#x2b;</p></h3>
+<h3>{{object.description}}</h3>
+<h3><a href="https://t.me/{{object.user.telegram}}">@{{object.user.telegram}}</a></h3>
+</div>
+</div>
+<div class="lk-container">
+    <div class="lk-sports">
+        {% for sport in object.get_sports %}
+        <div class="lk-sport">
+            {{sport.name}}
+            {{sport.description}}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="posts">
+        {% for post in posts %}
+        <div class="post">{{post.content}}</div>
+        {% endfor %}
+
+    </div>
+</div>
+</div>
+
+    
+   </div>
+{% endblock %}

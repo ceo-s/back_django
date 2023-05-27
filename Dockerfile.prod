@@ -1,0 +1,51 @@
+FROM python:3.11 as builder
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update
+
+RUN apt-get upgrade -y && apt-get -y install postgresql gcc python3-dev musl-dev
+
+RUN pip install --upgrade pip
+# RUN pip install flake8
+
+COPY . .
+
+# RUN flake8 --ignore=E501,F401 .
+
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+
+FROM python:3.11
+
+RUN mkdir -p /home/app
+
+RUN groupadd django_group
+RUN useradd -m -g django_group admin -p PASSWORD
+RUN usermod -a -G django_group admin
+
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/django
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+RUN apt-get update \
+    && apt-get install -y netcat
+
+COPY --from=builder /app/wheels /wheels
+COPY --from=builder /app/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+COPY ./entrypoint.prod.sh $APP_HOME
+
+COPY . $APP_HOME
+
+RUN chown -R admin:django_group $APP_HOME
+
+USER admin
+
+ENTRYPOINT ["/home/app/django/entrypoint.prod.sh"]
