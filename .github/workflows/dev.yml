@@ -32,8 +32,6 @@ jobs:
           python-version: 3.11
       - name: Install Dependencies
         run: |
-          apt update
-          apt-get update
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Perform tests
