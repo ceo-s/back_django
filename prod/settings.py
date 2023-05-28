@@ -14,14 +14,12 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-if os.getenv("ENV_VERSION") == "dev":
+if not os.getenv("ENV_VERSION") == "test":
     load_dotenv(".env.dev")
     load_dotenv(".env.dev.db")
-elif os.getenv("ENV_VERSION") == "test":
-    load_dotenv(".env.test")
-elif os.getenv("ENV_VERSION") == "prod":
-    load_dotenv(".env.prod")
-    load_dotenv(".env.prod.db")
+# elif os.getenv("ENV_VERSION") == "prod":
+# load_dotenv(".env.prod")
+# load_dotenv(".env.prod.db")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

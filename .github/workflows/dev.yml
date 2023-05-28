@@ -40,3 +40,12 @@ jobs:
           python manage.py test
         env:
           ENV_VERSION: test
+          DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
+          DEBUG: 0
+          DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
+          SQL_ENGINE: django.db.backends.postgresql
+          SQL_DATABASE: postgres
+          SQL_PASSWORD: postgres
+          SQL_USER: postgres
+          SQL_HOST: localhost
+          SQL_PORT: 5432
