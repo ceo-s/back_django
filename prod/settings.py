@@ -14,8 +14,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv(".env.dev")
-load_dotenv(".env.dev.db")
+# load_dotenv(".env.dev")
+# load_dotenv(".env.dev.db")
+
 # load_dotenv(".env.prod")
 # load_dotenv(".env.prod.db")
 

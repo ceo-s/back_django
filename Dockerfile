@@ -7,9 +7,13 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
+RUN pip install --upgrade pip
+
 RUN pip install -r requirements.txt
 
 COPY . .
+
+# ENTRYPOINT ["/app/entrypoint.dev.sh"]
 
 # CMD ["python3", "manage.py", "runserver"]
 
