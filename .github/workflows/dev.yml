@@ -39,9 +39,4 @@ jobs:
           python manage.py migrate
           python manage.py test
         env:
-          SQL_ENGINE: django.db.backends.postgresql
-          SQL_DATABASE: postgres
-          SQL_PASSWORD: postgres
-          SQL_USER: postgres
-          SQL_HOST: localhost
-          SQL_PORT: 5432
+          ENV_VERSION: test
