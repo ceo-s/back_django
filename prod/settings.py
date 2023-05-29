@@ -33,8 +33,9 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
+ALLOWED_HOSTS = ["localhost:8080", "127.0.0.1:8080"]
+CSRF_TRUSTED_ORIGINS = ["http://*.localhost:1337", "http://*.localhost:8080"]
+CSRF_COOKIE_DOMAIN = ["http://localhost", "http://127.0.0.1"]
 
 # Application definition
 
@@ -70,8 +71,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
     "http://127.0.0.1:8080"
 ]
 
@@ -170,14 +171,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_ROOT = f'{BASE_DIR}/media'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = f'{BASE_DIR}/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
