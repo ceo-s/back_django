@@ -1,3 +1,4 @@
 django-extensions
 pyparsing
 pydot
+pylint-django

@@ -5,17 +5,28 @@ from django.db.models.signals import post_save
 
 
 class TgUser(AbstractUser):
+    """
+    User extended with telegram property.
+    """
     telegram = models.CharField(max_length=100, unique=True)
 
     def __str__(self) -> str:
         return self.username
 
+# TODO create service path_generators
 
-def path_prof_pic(instance, filename):
+
+def path_prof_pic(instance, filename) -> str:
+    """
+    Generates path for saving user profile picture.
+    """
     return f"profile_pics/{instance.user.username}/{filename}"
 
 
 class ProfileCard(models.Model):
+    """
+    User profile card.
+    """
     user = models.OneToOneField(
         to="TgUser", to_field="username", on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(
@@ -34,11 +45,17 @@ class ProfileCard(models.Model):
         verbose_name_plural = "Профили"
 
 
-def path_post_pic(instance, filename):
+def path_post_pic(instance, filename) -> str:
+    """
+    Generates path for saving user post picture.
+    """
     return f"posts/{instance.user.username}/{filename[:99]}"
 
 
 class Post(models.Model):
+    """
+    Post / profile block.
+    """
     user = models.ForeignKey(to="TgUser",
                              on_delete=models.CASCADE)
     title = models.CharField(max_length=511)
@@ -55,6 +72,8 @@ class Post(models.Model):
 
 @receiver(post_save, sender=TgUser)
 def create_profile(sender, instance, **kwargs):
-    """Создаёт модель ProfileCard и Coaching при регистрации пользователя"""
+    """
+    Create ProfileCard instance on user registration.
+    """
     if kwargs['created']:
         ProfileCard.objects.create(user=instance)

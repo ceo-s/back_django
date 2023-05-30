@@ -22,10 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
     path('api/', include('api.urls')),
-    # TODO удалить пути. Почистить темлейты и вьюхи
-    # path('cabinet/', include("cabinet.urls")),
-    # path('coaching/', include("coaching.urls")),
-    # path('libs/', include("libs.urls")),
 ]
 
 if settings.DEBUG:
