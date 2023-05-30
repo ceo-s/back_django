@@ -52,4 +52,3 @@ jobs:
           SQL_USER: postgres
           SQL_HOST: localhost
           SQL_PORT: 5432
-  deploy:

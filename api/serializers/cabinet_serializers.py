@@ -13,6 +13,7 @@ class TgUserSerializer(serializers.ModelSerializer):
 
 
 class UserRegistrationSerializer(BaseUserRegistrationSerializer):
+
     class Meta(BaseUserRegistrationSerializer.Meta):
         fields = ["username", "telegram", "password"]
 

@@ -1,22 +1,14 @@
-from django.forms import model_to_dict
-from django.http import QueryDict
 from rest_framework import status
 from rest_framework.request import Request
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
-from libs.models import Exercise
 from api.serializers import diet_serializers
-from utils.services import date_time_fuctions
-from ..services import model_services
-from .. import mixins
-
-
 from diet.models import DietProgram, DayNutrients, DietSchedule, FoodAmount
 from diet.models import SupplementAmount, Meal, CustomMeal, DietProgramDay
+
+from ..services import model_services
+from .. import mixins
 
 
 class DietProgramViewSet(mixins.FilteredSearch, ModelViewSet):

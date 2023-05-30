@@ -3,18 +3,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
-from api.serializers import coaching_serializers, diet_serializers
-from utils.services import date_time_fuctions
+from api.serializers import coaching_serializers
 from api.services import model_services
-from .. import mixins
 
-from diet import models as diet_models
-from libs import models as libs_models
-from coaching import models as coaching_models
 
 # Coaching API Views
 from coaching.models import Client, ClientStatsActive, ClientStatsArchieved, ClientBaseExercises
 from coaching.models import TrainingProgram, TrainingDay, ExerciseAmount
+
+from .. import mixins
 
 
 class ClientViewSet(mixins.FilteredSearch, ModelViewSet):
@@ -101,7 +98,7 @@ class TrainingProgramViewSet(mixins.FilteredSearch, ModelViewSet):
 
         _, created_days = model_services.perform_update(data=days,
                                                         serializer=coaching_serializers.DetailTrainingDaySerializer,
-                                                        context={"model": coaching_models.TrainingDay,
+                                                        context={"model": TrainingDay,
                                                                  "fields": ("date",),
                                                                  "foreign_keys_fields": []},
                                                         many=True,
@@ -122,7 +119,7 @@ class TrainingProgramViewSet(mixins.FilteredSearch, ModelViewSet):
 
         model_services.perform_update(data=exercises,
                                       serializer=coaching_serializers.ExerciseAmountSerializer,
-                                      context={"model": coaching_models.ExerciseAmount,
+                                      context={"model": ExerciseAmount,
                                                "fields": ("name", "count", "reps", "sets", "weight", "comment", "exercise"),
                                                "foreign_keys_fields": []},
                                       many=True,

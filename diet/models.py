@@ -4,6 +4,9 @@ from django.db import models
 
 
 class DietProgram(models.Model):
+    """
+    Client diet program.
+    """
     name = models.CharField(max_length=255)
     coach = models.ForeignKey(
         to="cabinet.TgUser", on_delete=models.CASCADE)
@@ -25,10 +28,13 @@ class DietProgram(models.Model):
 
 
 class DayNutrients(models.Model):
+    """
+    Amount of daily nutrients to consume.
+    """
     diet_program = models.ForeignKey(
         to="DietProgram", on_delete=models.CASCADE, related_name="nutrients")
     name = models.CharField(max_length=255)
-    water = models.FloatField()  # grams
+    water = models.FloatField()
     proteins = models.FloatField()
     fats = models.FloatField()
     carbohydrates = models.FloatField()
@@ -43,6 +49,9 @@ class DayNutrients(models.Model):
 
 
 class DietSchedule(models.Model):
+    """
+    Schedule of Nurtrients. Aka carb/nutrients cycling.
+    """
     count = models.IntegerField()
     program = models.ForeignKey(
         to="DietProgram", on_delete=models.CASCADE, related_name="schedule")
@@ -58,6 +67,9 @@ class DietSchedule(models.Model):
 
 
 class FoodAmount(models.Model):
+    """
+    Product configurationn for diet day reference.
+    """
     product = models.ForeignKey(to="libs.Product", on_delete=models.CASCADE)
     meal = models.ForeignKey(
         to="Meal", on_delete=models.CASCADE, related_name="foodamount")
@@ -72,6 +84,9 @@ class FoodAmount(models.Model):
 
 
 class CustomMealFoodAmount(models.Model):
+    """
+    Product configurationn for custom meal.
+    """
     name = models.ForeignKey(to="libs.Product", on_delete=models.CASCADE)
     meal = models.ForeignKey(to="CustomMeal", on_delete=models.CASCADE)
     grams = models.FloatField(default=100.)
@@ -87,6 +102,9 @@ class CustomMealFoodAmount(models.Model):
 
 
 class SupplementAmount(models.Model):
+    """
+    Supplement configurationn for diet day reference.
+    """
     name = models.ForeignKey(to="libs.Supplement", on_delete=models.CASCADE)
     program = models.ForeignKey(
         to="DietProgram", on_delete=models.CASCADE)
@@ -101,6 +119,9 @@ class SupplementAmount(models.Model):
 
 
 class Meal(models.Model):
+    """
+    Meal on diet day.
+    """
     name = models.CharField(max_length=127)
     day = models.ForeignKey(to="DietProgramDay",
                             on_delete=models.CASCADE, related_name="meals")
@@ -114,6 +135,9 @@ class Meal(models.Model):
 
 
 class CustomMeal(models.Model):
+    """
+    Custom meal of diet day.
+    """
     name = models.CharField(max_length=127)
     coach = models.ForeignKey(
         to="cabinet.TgUser", on_delete=models.CASCADE)
@@ -127,6 +151,9 @@ class CustomMeal(models.Model):
 
 
 class DietProgramDay(models.Model):
+    """
+    Reference diet day for program.
+    """
     name = models.CharField(max_length=127)
     diet_program = models.ForeignKey(
         to="DietProgram", on_delete=models.CASCADE, related_name="day_reference")

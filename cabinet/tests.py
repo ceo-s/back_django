@@ -10,7 +10,7 @@ from .models import TgUser, ProfileCard, Post, path_post_pic, path_prof_pic
 
 class TestCabinet(TestCase):
     """
-    Unit tests for cabinet.
+    Unit tests for cabinet app.
     """
 
     def setUp(self):
@@ -21,11 +21,11 @@ class TestCabinet(TestCase):
         self.filename = "simple_image"
         self.file = SimpleUploadedFile(self.filename, image.getvalue())
 
-        self.tg_user: TgUser = mixer.blend(
-            TgUser, telegram="qwerty")  # type: ignore
+        self.tg_user = mixer.blend(
+            TgUser, telegram="qwerty")
         self.posts_count = 3
-        self.posts: list[Post] = [mixer.blend(Post, user=self.tg_user, media=self.file)  # type: ignore
-                                  for i in range(self.posts_count)]
+        self.posts = [mixer.blend(Post, user=self.tg_user, media=self.file)
+                      for i in range(self.posts_count)]
 
     def test_telegram(self):
         """

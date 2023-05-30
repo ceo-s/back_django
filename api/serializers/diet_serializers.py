@@ -10,6 +10,7 @@ from . import libs_serializers
 
 
 class DietProgramSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = DietProgram
         exclude = ("recommended_products", "forbidden_products")
@@ -100,7 +101,6 @@ class DietScheduleSerializer(serializers.ModelSerializer):
 
 class FoodAmountSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-
     product = FoodSerializer()
 
     class Meta:
@@ -116,7 +116,6 @@ class FoodAmountSerializer(serializers.ModelSerializer):
 
 
 class SupplementAmountSerializer(serializers.ModelSerializer):
-
     name = SupplementSerializer()
 
     class Meta:

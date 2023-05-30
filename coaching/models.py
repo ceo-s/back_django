@@ -1,18 +1,16 @@
+from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from typing import Iterable, Optional
-from django.db import models
-import json
-import datetime
-from django.utils.timezone import now
-from django.apps import apps
-from .services.defaults import default_program
 from utils.services import date_time_fuctions
+
 
 # Create your models here.
 
 
 class Client(models.Model):
+    """
+    Coaching client.
+    """
     name = models.CharField(max_length=127)
     telegram = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
@@ -29,6 +27,9 @@ class Client(models.Model):
 
 
 class ClientStats(models.Model):
+    """
+    Abstract measurements model.
+    """
     height = models.FloatField(null=True, blank=True)
     weight = models.FloatField(null=True, blank=True)
     bodyfat_percent = models.FloatField(null=True, blank=True)
@@ -47,6 +48,9 @@ class ClientStats(models.Model):
 
 
 class ClientStatsActive(ClientStats):
+    """
+    Client statistic and measurements current.
+    """
     client = models.OneToOneField(
         to="Client", on_delete=models.CASCADE, primary_key=True)
     date_update = models.DateField(auto_now=True)
@@ -60,6 +64,9 @@ class ClientStatsActive(ClientStats):
 
 
 class ClientStatsArchieved(ClientStats):
+    """
+    Client statistic and measurements archieve.
+    """
     client = models.ForeignKey("Client", on_delete=models.CASCADE)
     date_created = models.DateField()
     date_archieved = models.DateField(auto_now_add=True)
@@ -73,6 +80,9 @@ class ClientStatsArchieved(ClientStats):
 
 
 class ClientBaseExercises(models.Model):
+    """
+    Client exercises for statistic display.
+    """
     client = models.OneToOneField(
         "Client", on_delete=models.CASCADE)
     exercises = models.ManyToManyField(to='libs.Exercise')
@@ -86,6 +96,9 @@ class ClientBaseExercises(models.Model):
 
 
 class TrainingProgram(models.Model):
+    """
+    Client training program.
+    """
     coach = models.ForeignKey(
         to="cabinet.TgUser", on_delete=models.CASCADE)
     client = models.ForeignKey(to=Client, on_delete=models.CASCADE)
@@ -94,7 +107,7 @@ class TrainingProgram(models.Model):
     time_start = models.DateField()
     time_finish = models.DateField()
 
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+    def save(self) -> None:
         self.time_start = date_time_fuctions.weekstart_date(self.time_start)
         self.time_finish = date_time_fuctions.weekend_date(self.time_finish)
         super().save()
@@ -108,6 +121,9 @@ class TrainingProgram(models.Model):
 
 
 class TrainingDay(models.Model):
+    """
+    Training day for training program.
+    """
     program = models.ForeignKey(
         to="TrainingProgram", on_delete=models.CASCADE, related_name="days")
     date = models.DateField()
@@ -121,6 +137,9 @@ class TrainingDay(models.Model):
 
 
 class ExerciseAmount(models.Model):
+    """
+    Exercise configuration for training day.
+    """
     exercise = models.ForeignKey(
         to="libs.Exercise", on_delete=models.CASCADE, null=True)
     name = models.CharField(blank=True)
@@ -139,9 +158,9 @@ class ExerciseAmount(models.Model):
 
 @receiver(post_save, sender=Client)
 def on_client_creation(sender, instance, **kwargs):
-    """При добавлении новго клиента:
-       - создаёт ClientStatsActive instanse
-       - создаёт ClientBaseExercises instance."""
+    """On client creation:
+       - creates ClientStatsActive instanse
+       - creates ClientBaseExercises instance."""
     if kwargs['created']:
         ClientStatsActive.objects.create(client=instance)
         ClientBaseExercises.objects.create(
@@ -153,27 +172,12 @@ def on_client_creation(sender, instance, **kwargs):
 
 @receiver(post_save, sender=TrainingProgram)
 def fill_program(sender, instance, **kwargs):
+    """
+    Create training days related to Created TrainingProgram.
+    """
     if kwargs['created']:
         days = date_time_fuctions.get_interval_dates(
             str(instance.time_start), str(instance.time_finish))
         training_days = [TrainingDay(program=instance, date=day)
                          for day in days]
         TrainingDay.objects.bulk_create(training_days)
-
-
-"""
-height: 100.21
-weight: 100.21
-bodyfat_percent: 100.21
-neck: 100.21
-shoulders: 100.21
-chest: 100.21
-bicep: 100.21
-forearm: 100.21
-waist: 100.21
-glutes: 100.21
-legs: 100.21
-calves: 100.21
-date_update: 100.21
-
-"""

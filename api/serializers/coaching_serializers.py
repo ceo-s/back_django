@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
-from . import diet_serializers, libs_serializers
+# from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
 # Coaching serializers
 from coaching.models import Client, ClientStatsActive, ClientStatsArchieved, ClientBaseExercises
