@@ -1,3 +1,4 @@
+from typing import Iterable, Optional
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -107,7 +108,7 @@ class TrainingProgram(models.Model):
     time_start = models.DateField()
     time_finish = models.DateField()
 
-    def save(self) -> None:
+    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
         self.time_start = date_time_fuctions.weekstart_date(self.time_start)
         self.time_finish = date_time_fuctions.weekend_date(self.time_finish)
         super().save()
