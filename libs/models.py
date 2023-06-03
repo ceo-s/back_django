@@ -1,6 +1,6 @@
 from django.db import models
+from utils.services.model_services import PathGenerator
 from .services.service import custom_exercise_path
-
 # Create your models here.
 
 
@@ -44,12 +44,11 @@ class Exercise(models.Model):
     # Null should be removed
     image = models.ImageField(
         upload_to=custom_exercise_path, null=True)
-    media = models.FileField(default="media/")
     muscle = models.ManyToManyField(to="MuscleGroup")
     # TODO переименовать в спорт
-    sport_tag = models.ManyToManyField(to="Sport")
+    sport = models.ManyToManyField(to="Sport")
     user = models.ForeignKey(
-        to="cabinet.TgUser", on_delete=models.CASCADE, null=True)
+        to="cabinet.TgUser", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -57,6 +56,26 @@ class Exercise(models.Model):
     class Meta:
         verbose_name = "Упражнение"
         verbose_name_plural = "Упражнения"
+
+
+class ExerciseMedia(models.Model):
+    """
+    Mediafiles for exercise.
+    """
+    IMAGE = "IMG"
+    VIDEO = "VID"
+    TYPE_CHOICES = [
+        (IMAGE, "Image"),
+        (VIDEO, "Video")
+    ]
+    exercise = models.ForeignKey(
+        to="Exercise", on_delete=models.CASCADE, related_name="exercise_media")
+    file = models.FileField(upload_to="exercise_media")
+    type = models.CharField(max_length=15, choices=TYPE_CHOICES)
+
+    class Meta:
+        verbose_name = "Медиа-файл упражнения"
+        verbose_name_plural = "Медиа-файлы упражнений"
 
 
 class Product(models.Model):

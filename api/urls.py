@@ -53,6 +53,8 @@ router.register(
     r'muscles', viewset=libs_views.MuscleGroupViewSet, basename="muscle")
 router.register(r'exercises', viewset=libs_views.ExerciseViewSet,
                 basename="exercise")
+router.register(r'exercise_media', viewset=libs_views.ExerciseMediaViewSet,
+                basename="exercise_media")
 router.register(r'foods', viewset=libs_views.FoodViewSet, basename="food")
 router.register(
     r'supplements', viewset=libs_views.SupplementViewSet, basename="supplements")

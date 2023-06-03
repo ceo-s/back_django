@@ -1,4 +1,3 @@
-from typing import Iterable, Optional
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -12,8 +11,17 @@ class Client(models.Model):
     """
     Coaching client.
     """
+    # Gender options
+    MALE = "M"
+    FEMALE = "W"
+    GENDER_CHOICES = [
+        (MALE, "Man"),
+        (FEMALE, "Woman")
+    ]
     name = models.CharField(max_length=127)
-    telegram = models.CharField(max_length=100, unique=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    telegram = models.CharField(
+        max_length=100, null=True, blank=True, unique=True)
     description = models.TextField(null=True, blank=True)
     sport = models.ManyToManyField(to="libs.Sport", blank=True)
     coach = models.ForeignKey(
@@ -108,10 +116,12 @@ class TrainingProgram(models.Model):
     time_start = models.DateField()
     time_finish = models.DateField()
 
-    def save(self, force_insert: bool = ..., force_update: bool = ..., using: str | None = ..., update_fields: Iterable[str] | None = ...) -> None:
+    # FIXME перестала работать :)
+    def save(self, force_insert, force_update, using, update_fields) -> None:
         self.time_start = date_time_fuctions.weekstart_date(self.time_start)
         self.time_finish = date_time_fuctions.weekend_date(self.time_finish)
-        super().save()
+        super(TrainingProgram, self).save(
+            force_insert, force_update, using, update_fields)
 
     def __str__(self) -> str:
         return self.name

@@ -13,7 +13,7 @@ class TestMixins(APITestCase):
         self.muscle_groups = [mixer.blend(MuscleGroup) for i in range(6)]
         self.exercises = []
         for sport in self.sports:
-            self.exercises += [mixer.blend(Exercise, sport_tag=sport)
+            self.exercises += [mixer.blend(Exercise, sport=sport)
                                for i in range(4)]
         self.add_m2m()
         self.client.force_login(user=self.user)
@@ -42,7 +42,7 @@ class TestMixins(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get(
-            reverse('exercise-filter'), QUERY_STRING=f"sport_tag={self.sports[0].id}")
+            reverse('exercise-filter'), QUERY_STRING=f"sport={self.sports[0].id}")
 
         self.assertEqual(len(response.data), 4)
         self.assertEqual(response.status_code, 200)

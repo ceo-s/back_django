@@ -6,6 +6,7 @@ from . import models
 admin.site.register([
     models.MuscleGroup,
     models.Exercise,
+    models.ExerciseMedia,
     models.Product,
     models.Supplement,
 ])

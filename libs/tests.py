@@ -23,7 +23,7 @@ class TestLibs(TestCase):
         Adds many to many fields to related model.
         """
         self.exercise.muscle.add(self.muscle_group)
-        self.exercise.sport_tag.add(self.sport)
+        self.exercise.sport.add(self.sport)
 
     def test_sport(self):
         """
@@ -45,7 +45,7 @@ class TestLibs(TestCase):
         """
         Tests if exercise instance is created properly.
         """
-        sports = self.exercise.sport_tag.all()
+        sports = self.exercise.sport.all()
         muscle_groups = self.exercise.muscle.all()
         self.assertEqual(muscle_groups[0], self.muscle_group)
         self.assertEqual(sports[0], self.sport)

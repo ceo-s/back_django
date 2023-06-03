@@ -73,7 +73,11 @@ class TrainingProgramViewSet(mixins.FilteredSearch, ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request: Request, *args, **kwargs):
-        data = request.data.dict()
+        # FIXME это говно в реквесте то дикт до куери-дикт. Сейчас поставлю трай, но потом надо разобраться че за дела
+        try:
+            data = request.data.dict()
+        except AttributeError:
+            data = request.data
         data["coach"] = request.user.id
 
         serializer = self.get_serializer(data=data)

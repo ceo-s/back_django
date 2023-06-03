@@ -16,8 +16,12 @@ class DietProgramViewSet(mixins.FilteredSearch, ModelViewSet):
     serializer_class = diet_serializers.DietProgramSerializer
 
     def create(self, request: Request, *args, **kwargs):
-        # BUG приходит дикт если отпрака без csrf токена. Не уверен что из-за него но начнём с него
-        data = request.data.dict()
+        # FIXME приходит дикт если отпрака без csrf токена. Не уверен что из-за него но начнём с него
+        # Да не вряд ли
+        try:
+            data = request.data.dict()
+        except AttributeError:
+            data = request.data
         data["coach"] = request.user.id
 
         serializer = self.get_serializer(data=data)
@@ -30,17 +34,16 @@ class DietProgramViewSet(mixins.FilteredSearch, ModelViewSet):
 
     @action(methods=["get"], detail=True, url_name="get_program")
     def get_program(self, request: Request, pk=None, *args, **kwargs):
-        queryset = self.get_queryset()\
+        instance = self.get_queryset()\
             .prefetch_related("forbidden_products", "recommended_products")\
             .prefetch_related("day_reference", "nutrients", "schedule")\
             .get(id=pk)
         serializer = diet_serializers.ExtendedDietProgramSerializer(
-            queryset)
+            instance)
         headers = self.get_success_headers(serializer)
         return Response(status=status.HTTP_200_OK, data=serializer.data, headers=headers)
 
     def update(self, request: Request, pk=None, *args, **kwargs):
-        print("SUKA", request.data)
         instance = self.get_object()
         serializer = diet_serializers.ExtendedDietProgramSerializer(
             data=request.data)

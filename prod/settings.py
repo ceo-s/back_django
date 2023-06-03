@@ -33,7 +33,12 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
 
-ALLOWED_HOSTS = ["localhost:8080", "127.0.0.1:8080"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "localhost:8080",
+    "127.0.0.1",
+    "127.0.0.1:8080",
+]
 CSRF_TRUSTED_ORIGINS = ["http://*.localhost:1337", "http://*.localhost:8080"]
 CSRF_COOKIE_DOMAIN = ["http://localhost", "http://127.0.0.1"]
 
@@ -75,6 +80,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080"
 ]
+CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -88,8 +94,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DATE_FORMAT': '%d.%m.%Y',
-    'DATE_INPUT_FORMATS': ['%d.%m.%Y']
-
+    'DATE_INPUT_FORMATS': ['%d.%m.%Y'],
+    'UPLOADED_FILES_USE_URL': True,
     # 'DATETIME_FORMAT': '%d.%m.%Y',
 }
 
@@ -144,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-] if int(os.environ.get("DEBUG", 1)) else []
+] if not int(os.environ.get("DEBUG", 1)) else []
 
 AUTH_USER_MODEL = 'cabinet.TgUser'
 
