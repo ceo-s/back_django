@@ -24,15 +24,19 @@ class ClientViewSet(mixins.FilteredSearch, ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request: Request, *args, **kwargs):
-        data = request.data
+        try:
+            data = request.data.dict()
+        except AttributeError:
+            data = request.data
+        data["coach"] = request.user.id
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
-            serializer.validated_data["coach"] = request.user
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(status=status.HTTP_201_CREATED, data=serializer.data, headers=headers)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND, data={"Error": serializer.errors})
+
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Error": serializer.errors})
 
     @action(methods=["get"], detail=True, url_name="info")
     def get_all_info(self, request: Request, pk=None):
@@ -86,7 +90,7 @@ class TrainingProgramViewSet(mixins.FilteredSearch, ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND, data={"Error": serializer.errors})
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Error": serializer.errors})
 
     def update(self, request: Request, pk=None, *args, **kwargs):
         instance = self.get_object()

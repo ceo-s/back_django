@@ -117,11 +117,10 @@ class TrainingProgram(models.Model):
     time_finish = models.DateField()
 
     # FIXME перестала работать :)
-    def save(self, force_insert, force_update, using, update_fields) -> None:
+    def save(self, *args, **kwargs) -> None:
         self.time_start = date_time_fuctions.weekstart_date(self.time_start)
         self.time_finish = date_time_fuctions.weekend_date(self.time_finish)
-        super(TrainingProgram, self).save(
-            force_insert, force_update, using, update_fields)
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name

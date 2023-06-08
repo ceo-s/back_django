@@ -36,15 +36,26 @@ class TestCoachingViews(APITestCase):
             'description': 'La la',
             'coach': '',
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_client_valid_create(self):
+        # With sport tags
         response = self.client.post(reverse('client-list'), {
             'name': 'test_name',
             'telegram': 'test_telegram',
             'description': 'La la',
+            'gender': 'M',
             'sport': self.coaching_client.sport.all(),
             'coach': self.user.id
+        })
+        # Without sport tags
+        self.assertEqual(response.status_code, 201)
+        response = self.client.post(reverse('client-list'), {
+            'name': 'test_name',
+            'telegram': 'test_telegram2',
+            'description': 'La la',
+            'gender': 'M',
+            'coach': ''
         })
         self.assertEqual(response.status_code, 201)
 
@@ -108,7 +119,7 @@ class TestCoachingViews(APITestCase):
             'time_finish': '23.05.2023',
             'client': "",
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_training_program_valid_create(self):
         response = self.client.post(reverse('tprogram-list'), {
