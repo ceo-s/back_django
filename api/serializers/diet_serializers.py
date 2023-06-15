@@ -109,7 +109,6 @@ class FoodAmountSerializer(serializers.ModelSerializer):
         list_serializer_class = BulkUpdateOrCreateListSerializer
 
     def update(self, instance, validated_data):
-        print("AOAOAOOAOAAOOOOOAOAOOA")
         validated_data["product"] = validated_data["product"].get("id")
         return {}
         # return super().update(instance, validated_data)
