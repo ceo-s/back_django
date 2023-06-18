@@ -23,6 +23,27 @@ class ProfileCardViewSet(ModelViewSet):
         serializer = self.get_serializer(queryset)
         return Response(serializer.data)
 
+    def partial_update(self, request: Request, pk=None, *args, **kwargs):
+
+        user_serializer = cabinet_serializers.TgUserSerializer(
+            request.user, data=request.data, partial=True)
+
+        if user_serializer.is_valid():
+            user_serializer.save()
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Error": user_serializer.errors})
+
+        profile = self.get_queryset().get(user=request.user)
+        profile_serializer = self.get_serializer(
+            profile, data=request.data, partial=True)
+        if profile_serializer.is_valid():
+            profile_serializer.save()
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Error": profile_serializer.errors})
+
+        headers = self.get_success_headers(profile_serializer)
+        return Response(status=status.HTTP_200_OK, data={"Succes": "All done"}, headers=headers)
+
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()

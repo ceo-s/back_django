@@ -200,7 +200,7 @@ INTERNAL_IPS = [
 
 DJOSER = {
     'SERIALIZERS': {
-        'user_create': 'api.serializers.authorization_serializers.UserRegistrationSerializer'
+        'user_create': 'api.serializers.cabinet_serializers.UserRegistrationSerializer'
     }
 }
 
