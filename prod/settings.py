@@ -14,12 +14,12 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-if not os.getenv("ENV_VERSION") == "test":
-    load_dotenv(".env.dev")
-    load_dotenv(".env.dev.db")
+# if not os.getenv("ENV_VERSION") == "test":
+# load_dotenv(".env.dev")
+# load_dotenv(".env.dev.db")
 # elif os.getenv("ENV_VERSION") == "prod":
-# load_dotenv(".env.prod")
-# load_dotenv(".env.prod.db")
+load_dotenv(".env.prod")
+load_dotenv(".env.prod.db")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,13 +33,24 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get("DEBUG", default=1)))
 
+
 ALLOWED_HOSTS = [
     "localhost",
     "localhost:8080",
     "127.0.0.1",
     "127.0.0.1:8080",
 ]
-CSRF_TRUSTED_ORIGINS = ["http://*.localhost:1337", "http://*.localhost:8080"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:1337",
+    "http://localhost:8080",
+    "http://localhost",
+    "http://127.0.0.1:1337",
+    "http://127.0.0.1:8080",
+    "http://127.0.0.1",
+    "http://172.19.0.1",
+    "http://194.87.248.136"
+]
 CSRF_COOKIE_DOMAIN = ["http://localhost", "http://127.0.0.1"]
 
 # Application definition
